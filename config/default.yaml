@@ -1,0 +1,50 @@
+sap:
+  system_name: "PRD"
+  client: "100"
+  language: "EN"
+
+paths:
+  output_dir: "./output"
+  log_dir: "./logs"
+  template_dir: "./config/templates"
+
+export:
+  format: "xlsx"            # xlsx | pdf | csv | all
+  filename_pattern: "{transaction}_{document_number}_{timestamp}"
+  include_timestamp: true
+
+retry:
+  max_attempts: 3
+  delay_seconds: 2.0
+  backoff_multiplier: 2.0
+  max_delay_seconds: 60.0
+  retry_on_exceptions:
+    - "SAPBusyError"
+    - "SessionNotFoundError"
+
+logging:
+  level: "INFO"
+  file_rotation: "daily"
+  max_log_files: 30
+  format: "%(asctime)s | %(levelname)-8s | %(name)s | %(message)s"
+
+transactions:
+  # Each transaction handler maps a name to its class
+  va23:
+    class: "sap_automation.transactions.va23_display_quotation.VA23DisplayQuotation"
+    description: "Display and export SAP quotations"
+    export_format: "xlsx"
+  # Uncomment and configure as needed:
+  # vf05:
+  #   class: "sap_automation.transactions.vf05_list_billing.VF05ListBilling"
+  #   description: "List billing documents"
+  # me2m:
+  #   class: "sap_automation.transactions.me2m_purchase_order.ME2MPurchaseOrder"
+  #   description: "Purchase order list by material"
+
+excel:
+  # Column mapping for input files
+  # Keys are the canonical names the framework expects
+  # Values are the actual column headers in your Excel file
+  document_number_column: "Document Number"
+  sheet_name: null  # null = first sheet
