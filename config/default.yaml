@@ -34,6 +34,11 @@ transactions:
     class: "sap_automation.transactions.va23_display_quotation.VA23DisplayQuotation"
     description: "Display and export SAP quotations"
     export_format: "xlsx"
+    # SAP export menu and dialog IDs — record a manual export to find correct values
+    # These work for standard SAP GUI 7.x with Signature theme
+    export_ids:
+      export_menu: "wnd[0]/mbar/menu[0]/menu[3]/menu[1]"
+      format_dialog_ok: "wnd[1]/tbar[0]/btn[0]"
   # Uncomment and configure as needed:
   # vf05:
   #   class: "sap_automation.transactions.vf05_list_billing.VF05ListBilling"
